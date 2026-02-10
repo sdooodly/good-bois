@@ -7,19 +7,13 @@ const caption = document.getElementById('caption');
 const errorBox = document.getElementById('error');
 const errorMsg = document.getElementById('errorMsg');
 const retryBtn = document.getElementById('retryBtn');
-const historyList = document.getElementById('historyList');
 const favList = document.getElementById('favList');
 const dogContainer = document.getElementById('dogImage');
 
-const HISTORY_KEY = 'goodbois_history_v1';
 const FAV_KEY = 'goodbois_favs_v1';
-const MAX_HISTORY = 12;
-
-let history = JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]');
 let favs = JSON.parse(localStorage.getItem(FAV_KEY) || '[]');
 
 function saveState() {
-    localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
     localStorage.setItem(FAV_KEY, JSON.stringify(favs));
 }
 
@@ -31,17 +25,7 @@ function parseBreed(url) {
     } catch (e) { return '' }
 }
 
-function renderHistory() {
-    historyList.innerHTML = '';
-    history.forEach(url => {
-        const img = document.createElement('img');
-        img.src = url;
-        img.alt = parseBreed(url) || 'history';
-        img.loading = 'lazy';
-        img.addEventListener('click', () => loadImage(url));
-        historyList.appendChild(img);
-    });
-}
+
 
 function renderFavs() {
     favList.innerHTML = '';
@@ -61,15 +45,6 @@ function updateFavButton(currentUrl) {
     if (!favBtn) return;
     const isFav = url && favs.includes(url);
     favBtn.textContent = isFav ? '💖' : '❤';
-}
-
-function addToHistory(url) {
-    if (!url) return;
-    history = history.filter(u => u !== url);
-    history.unshift(url);
-    if (history.length > MAX_HISTORY) history.length = MAX_HISTORY;
-    saveState();
-    renderHistory();
 }
 
 function toggleFavorite(url) {
@@ -154,7 +129,6 @@ async function loadImage(url) {
         downloadBtn.href = objectUrl;
         downloadBtn.setAttribute('download', `${breed || 'dog'}.jpg`);
         updateFavButton(url);
-        addToHistory(url);
     } catch (err) {
         console.error(err);
         errorMsg.textContent = 'Failed to load image. Please try again.';
@@ -212,6 +186,5 @@ shareBtn && shareBtn.addEventListener('click', async () => {
 // Download handled by anchor
 
 // init
-renderHistory();
 renderFavs();
 window.addEventListener('load', getNewDog);

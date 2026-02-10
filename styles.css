@@ -5,6 +5,13 @@ body {
     align-items: center;
     flex-direction: column;
     min-height: 100vh;
+    padding-top: 0;
+    padding-bottom: 64px; /* space for fixed footer */
+}
+/* Use a consistent system font stack across the site */
+body {
+    font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    color: #ddd;
 }
 
 html,
@@ -197,11 +204,8 @@ body,
 
 h1 {
     font-size: 5em;
-
-    font-family: "Gambetta", serif;
     letter-spacing: -2px;
     transition: 700ms ease;
-    font-variation-settings: "wght" 311;
     margin-bottom: 0.8rem;
     color: #ec1bff;
     outline: none;
@@ -209,7 +213,6 @@ h1 {
 }
 
 h1:hover {
-    font-variation-settings: "wght" 582;
     letter-spacing: 4px;
 }
 
@@ -239,8 +242,23 @@ button:hover {
 footer {
     display: flex;
     justify-content: center;
- 
+    position: fixed;
     bottom: 0;
     left: 0;
     width: 100%;
+    background: rgba(0,0,0,0.6); /* stronger, translucent black for visibility */
+    padding: 10px 0;
+    z-index: 999;
 }
+
+.footer-inner {
+    color: #ddd;
+    font-size: 0.95rem;
+}
+.footer-inner a {
+    color: #ec1bff;
+    text-decoration: none;
+}
+.footer-inner a:hover { text-decoration: underline; }
+
+/* marquee removed per user request */
