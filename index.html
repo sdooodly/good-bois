@@ -14,7 +14,30 @@
     <div id="dogImage" class="image-window">
         <img id="dogImg" src="" alt="Good boi" />
     </div>
-    <button id="dogBtn">Refresh</button>
+    <div class="controls">
+        <button id="dogBtn">Refresh</button>
+        <button id="favBtn" title="Save favorite">❤</button>
+        <button id="shareBtn" title="Share image">🔗</button>
+        <a id="downloadBtn" title="Download image" download="good-boi.jpg">⬇</a>
+    </div>
+
+    <div id="caption" class="caption" aria-live="polite"></div>
+
+    <div id="error" class="error" hidden>
+        <p id="errorMsg">Sthing went wronggg!!!</p>
+        <button id="retryBtn">Retry</button>
+    </div>
+
+    <div class="gallery">
+        <section class="history">
+            <h3>History</h3>
+            <div id="historyList" class="thumbs"></div>
+        </section>
+        <section class="favorites">
+            <h3>Favorites</h3>
+            <div id="favList" class="thumbs"></div>
+        </section>
+    </div>
     <footer>
         <h13>Copyright &copy
             <i><a href="https://github.com/sdooodly" target="_blank"> Sdooodly</a></i></h13>

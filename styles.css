@@ -26,6 +26,7 @@ body,
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
 }
 
 #dogImage img {
@@ -35,10 +36,133 @@ body,
     display: block;
     opacity: 0;
     transition: opacity 240ms ease-in-out, transform 240ms ease;
+    position: relative;
+    z-index: 2;
 }
 
 #dogImage img.loaded {
     opacity: 1;
+}
+
+/* Loading overlay / spinner */
+.image-window.loading::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.35);
+}
+
+.image-window.loading::before {
+    content: "";
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 4px solid rgba(255,255,255,0.12);
+    border-top-color: #ec1bff;
+    animation: spin 900ms linear infinite;
+    z-index: 2;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Blurred low-res placeholder via CSS variable */
+.image-window::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background-image: var(--placeholder, none);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    filter: blur(10px) saturate(1.1) brightness(0.9);
+    transform: scale(1.05);
+    transition: opacity 220ms linear;
+    opacity: 0.95;
+}
+
+.image-window.placeholder-hidden::before { opacity: 0; }
+
+/* Controls */
+.controls {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    margin-top: 12px;
+}
+
+.controls button,
+.controls a {
+    background: #050801;
+    color: #ec1bff;
+    border: none;
+    padding: 10px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.controls button:disabled {
+    opacity: 0.5;
+    cursor: default;
+}
+
+.caption {
+    margin-top: 10px;
+    color: #ddd;
+    font-size: 0.95rem;
+    text-align: center;
+    min-height: 1.2rem;
+}
+
+.error {
+    margin-top: 12px;
+    background: #2a0b0b;
+    color: #ffb3b3;
+    padding: 10px 12px;
+    border-radius: 6px;
+}
+
+.gallery {
+    width: min(640px, 92vw);
+    display: flex;
+    gap: 18px;
+    justify-content: space-between;
+    margin-top: 18px;
+    flex-wrap: wrap;
+}
+
+.gallery h3 {
+    color: #ec1bff;
+    margin: 6px 0;
+    font-size: 0.95rem;
+}
+
+.thumbs {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    overflow-x: auto;
+    padding: 6px 0;
+}
+
+.thumbs img {
+    width: 72px;
+    height: 54px;
+    object-fit: cover;
+    border-radius: 6px;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+}
+
+/* Small-screen polish */
+@media (max-width: 640px) {
+    .gallery { gap: 10px; }
+    .thumbs img { width: 56px; height: 42px; }
+    .controls button, .controls a { padding: 8px 10px; }
 }
 
 /* Responsive adjustments */
